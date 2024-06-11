@@ -26,6 +26,12 @@
   <script>
     document.documentElement.classList.replace('no-js', 'js');
     window.addEventListener('load', () => document.documentElement.classList.add('ready'));
+
+    // Function to play dog barking sound
+    function playDogSound() {
+      var audio = new Audio('{{ 'dog-barking.mp3' | asset_url }}');
+      audio.play();
+    }
   </script>
 
   <!-- Global CSS -->
@@ -41,11 +47,30 @@
 <body class="min-h-screen flex flex-col bg-base-100 text-base-content">
   <!-- Main Content -->
   <main id="mainContent" tabindex="-1" class="flex-1 outline-none">
+    <!-- Products Section -->
+    <section class="products-section">
+      <h2>Featured Products</h2>
+      <div class="products-grid">
+        {% for product in collections.featured.products %}
+          <div class="product-card">
+            <a href="{{ product.url }}">
+              <img src="{{ product.featured_image.src | img_url: 'medium' }}" alt="{{ product.featured_image.alt }}">
+              <h3>{{ product.title }}</h3>
+              <p>{{ product.price | money }}</p>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+    
     {{ content_for_layout }}
   </main>
 
   <!-- Development Indicator -->
   {% render 'dev-indicator' %}
+
+  <!-- Dog Barking Sound -->
+  <button onclick="playDogSound()">Click to Hear a Dog Bark!</button>
 
   <!-- Shopify JavaScript Variables -->
   <script>
